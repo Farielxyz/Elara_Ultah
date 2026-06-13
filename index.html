@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spesial Gift Buat Kamu 🎀</title>
+  <meta name="description" content="Aesthetic Special Gift">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================
+       1. VARIABEL & RESET
+    ========================================= */
+    :root {
+      --primary: #FFB7B2;   /* Pastel Pink */
+      --secondary: #E2F0CB; /* Pastel Green */
+      --accent: #FFDAC1;    /* Peach */
+      --text: #5D5D5D;
+      --glass-bg: rgba(255, 255, 255, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #FF9A9E, #FECFEF, #A1C4FD, #C2E9FB);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Partikel Melayang */
+    .particles {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+    }
+    .particle {
+      position: absolute; font-size: 20px; animation: floatUp 8s linear infinite; opacity: 0;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      20% { opacity: 0.6; }
+      80% { opacity: 0.6; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* =========================================
+       2. KOTAK KACA (GLASSMORPHISM)
+    ========================================= */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      position: relative;
+      z-index: 10;
+      transition: all 0.5s ease;
+      display: none; /* Disembunyikan secara default */
+    }
+
+    .active-page {
+      display: block;
+      animation: fadeInZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes fadeInZoom {
+      0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    h1, h2 { font-family: 'Pacifico', cursive; color: #FF7B89; margin-bottom: 15px; font-weight: normal; }
+    p { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 600; }
+
+    button {
+      background: linear-gradient(135deg, #FF9A9E, #FECFEF);
+      border: none; border-radius: 50px; padding: 12px 30px;
+      font-size: 16px; font-weight: bold; color: #fff;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+      transition: all 0.3s ease;
+    }
+    button:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.6); }
+
+    /* =========================================
+       3. HALAMAN 1: AMPLOP
+    ========================================= */
+    .envelope-container { cursor: pointer; position: relative; margin: 30px auto; width: 200px; height: 150px; }
+    .envelope {
+      width: 100%; height: 100%; background: #FFE4E1; border-radius: 10px;
+      position: absolute; box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 50px;
+      transition: transform 0.5s ease;
+    }
+    .envelope:hover { transform: translateY(-10px) rotate(3deg); }
+    .flap { position: absolute; top: 0; width: 0; height: 0; border-left: 100px solid transparent; border-right: 100px solid transparent; border-top: 80px solid #FFC0CB; z-index: 3; }
+
+    /* =========================================
+       4. HALAMAN 2: GAME MEMORI
+    ========================================= */
+    .game-board {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.8); height: 80px; border-radius: 15px;
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+      cursor: pointer; transition: transform 0.3s; transform-style: preserve-3d;
+    }
+    .card.flipped { transform: rotateY(180deg); background: #FFF0F5; }
+    .card-content { display: none; transform: rotateY(180deg); }
+    .card.flipped .card-content { display: block; }
+    #btn-next-game { display: none; margin: 0 auto; }
+
+    /* =========================================
+       5. HALAMAN 3: KUE ULANG TAHUN
+    ========================================= */
+    .cake-container { position: relative; margin: 40px auto; width: 150px; height: 150px; }
+    .cake-tier { background: #FFB7B2; border-radius: 10px; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+    .tier-1 { width: 140px; height: 50px; z-index: 1; }
+    .tier-2 { width: 100px; height: 40px; bottom: 50px; z-index: 2; background: #FFDAC1; }
+    .candle { width: 12px; height: 35px; background: #fff; border-radius: 3px; position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 3; }
+    .flame {
+      width: 15px; height: 25px; background: #FFD700; border-radius: 50% 50% 20% 20%;
+      position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+      box-shadow: 0 0 15px #FFA500; animation: flicker 0.5s infinite alternate; cursor: pointer;
+    }
+    @keyframes flicker { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 25px #FFA500; } }
+
+    /* =========================================
+       6. HALAMAN 4: PESAN CINTA
+    ========================================= */
+    #typewriter { min-height: 150px; text-align: left; margin: 20px 0; font-weight: 600; color: #5D5D5D; font-size: 15px;}
+    .hidden { display: none; }
+
+    /* =========================================
+       7. CONFETTI (Kejutan Akhir)
+    ========================================= */
+    canvas#confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; display: none; }
+    
+    .gift-box { font-size: 80px; cursor: pointer; animation: bounce 2s infinite; margin: 20px 0;}
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+  </style>
+</head>
+<body>
+
+  <!-- Musik Latar (Diganti dengan URL yang valid atau biarkan default) -->
+  <audio id="bgMusic" src="https://feeldreams.github.io/audio/angelbaby.mp3" loop></audio>
+
+  <!-- Latar Belakang Partikel Animasi -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Halaman 1: Amplop -->
+  <div class="glass-card active-page" id="page1">
+    <h2>Alooo Kamuu! ✨</h2>
+    <p>Ada surat rahasia nih buat kamu. Coba buka deh!</p>
+    <div class="envelope-container" onclick="openEnvelope()">
+      <div class="envelope">💌</div>
+      <div class="flap"></div>
+    </div>
+    <button onclick="openEnvelope()">Buka Suratnya</button>
+  </div>
+
+  <!-- Halaman 2: Mini Game -->
+  <div class="glass-card" id="page2">
+    <h2>Mini Game Waktu! ⏳</h2>
+    <p>Sebelum lanjut, coba tebak dan samakan 2 kartu ini (Biar kamu senyum dikit 🫣)</p>
+    <div class="game-board" id="gameBoard"></div>
+    <p id="gameStatus"></p>
+    <button id="btn-next-game" onclick="nextPage('page2', 'page3')">Lanjut ke Kejutan!</button>
+  </div>
+
+  <!-- Halaman 3: Make a Wish -->
+  <div class="glass-card" id="page3">
+    <h2>Make a Wish 🎉</h2>
+    <p>Tutup mata, buat permintaan terindahmu, lalu sentuh apinya untuk meniup lilin!</p>
+    <div class="cake-container">
+      <div class="cake-tier tier-1"></div>
+      <div class="cake-tier tier-2"></div>
+      <div class="candle">
+        <div class="flame" id="flame" onclick="blowCandle()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Halaman 4: Pesan Ketik -->
+  <div class="glass-card" id="page4">
+    <h2>Untuk Kamu 💖</h2>
+    <div id="typewriter"></div>
+    <button id="btn-show-surprise" class="hidden" onclick="nextPage('page4', 'page5')">Ada 1 Kejutan Lagi!</button>
+  </div>
+
+  <!-- Halaman 5: Kejutan Spesial (Baru) -->
+  <div class="glass-card" id="page5">
+    <h2>Kejutan Spesial! 🎁</h2>
+    <p>Sentuh kotaknya untuk membuka kado virtual kamu!</p>
+    <div class="gift-box" id="gift" onclick="openGift()">📦</div>
+    <div id="final-message" class="hidden">
+      <h1 style="font-size: 28px;">Happy Level Up Day! 🥳</h1>
+      <p>Semoga di usia yang baru ini, kamu makin kuat, makin sabar, dan makin percaya sama diri sendiri. Apa pun yang kamu impikan, pelan-pelan semoga satu per satu bisa terwujud dengan cara terbaik 💕</p>
+      <button onclick="shareWhatsApp()">💌 Balas Lewat WA</button>
+    </div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    // ==========================================
+    // 1. SETUP PARTIKEL BACKGROUND
+    // ==========================================
+    const emojis = ['✨', '🌸', '💖', '🎀', '🧸', '💫'];
+    const particleContainer = document.getElementById('particles');
+    for(let i=0; i<20; i++) {
+      let p = document.createElement('div');
+      p.className = 'particle';
+      p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      p.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      particleContainer.appendChild(p);
+    }
+
+    // ==========================================
+    // 2. NAVIGASI HALAMAN
+    // ==========================================
+    const music = document.getElementById('bgMusic');
+
+    function nextPage(hideId, showId) {
+      document.getElementById(hideId).classList.remove('active-page');
+      document.getElementById(showId).classList.add('active-page');
+    }
+
+    function openEnvelope() {
+      music.play().catch(e => console.log("Autoplay blocked"));
+      nextPage('page1', 'page2');
+      initGame();
+    }
+
+    // ==========================================
+    // 3. LOGIKA MINI GAME (MEMORI)
+    // ==========================================
+    const icons = ['🌺', '🎁', '🎉', '💘', '🌺', '🎁', '🎉', '💘'];
+    let flippedCards = [];
+    let matchedCount = 0;
+
+    function initGame() {
+      const board = document.getElementById('gameBoard');
+      board.innerHTML = '';
+      let shuffled = icons.sort(() => 0.5 - Math.random());
+      
+      shuffled.forEach((icon, index) => {
+        let card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.val = icon;
+        card.innerHTML = `<span class="card-content">${icon}</span>`;
+        card.onclick = () => flipCard(card);
+        board.appendChild(card);
+      });
+    }
+
+    function flipCard(card) {
+      if (flippedCards.length < 2 && !card.classList.contains('flipped')) {
+        card.classList.add('flipped');
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+          setTimeout(checkMatch, 800);
+        }
+      }
+    }
+
+    function checkMatch() {
+      let [c1, c2] = flippedCards;
+      if (c1.dataset.val === c2.dataset.val) {
+        matchedCount += 2;
+        if (matchedCount === icons.length) {
+          document.getElementById('gameStatus').innerText = "Yeyyy Kamu Pintar! 🥳";
+          document.getElementById('btn-next-game').style.display = "block";
+        }
+      } else {
+        c1.classList.remove('flipped');
+        c2.classList.remove('flipped');
+      }
+      flippedCards = [];
+    }
+
+    // ==========================================
+    // 4. LOGIKA TIUP LILIN
+    // ==========================================
+    function blowCandle() {
+      const flame = document.getElementById('flame');
+      flame.style.display = 'none'; // Matikan api
+      
+      // Tambahkan efek asap kecil (opsional/simpel)
+      let smoke = document.createElement('div');
+      smoke.innerText = '💨';
+      smoke.style.position = 'absolute';
+      smoke.style.top = '-30px';
+      smoke.style.left = '50%';
+      smoke.style.transform = 'translateX(-50%)';
+      document.querySelector('.candle').appendChild(smoke);
+
+      setTimeout(() => {
+        nextPage('page3', 'page4');
+        typeMessage();
+      }, 2000);
+    }
+
+    // ==========================================
+    // 5. EFEK MESIN TIK (TYPEWRITER)
+    // ==========================================
+    const message = "Kita make a wish di hari ulang tahunmu ini yaa 🫣 Semoga kamu selalu diberi kesehatan, hati yang tenang, dan langkah yang dimudahkan dalam setiap rencana baikmu. \n\nSemangat terus buat kejar semua keinginan kamuu, jangan pernah takut gagal yaa, aku selalu dukung kamu di sini. Oh ya, jangan lupa untuk selalu bersyukur yaa 💫";
+    let i = 0;
+
+    function typeMessage() {
+      if (i < message.length) {
+        let char = message.charAt(i);
+        if (char === '\n') {
+          document.getElementById('typewriter').innerHTML += "<br>";
+        } else {
+          document.getElementById('typewriter').innerHTML += char;
+        }
+        i++;
+        setTimeout(typeMessage, 40); // Kecepatan ketik
+      } else {
+        setTimeout(() => {
+          document.getElementById('btn-show-surprise').classList.remove('hidden');
+        }, 1000);
+      }
+    }
+
+    // ==========================================
+    // 6. KEJUTAN (KADO & CONFETTI)
+    // ==========================================
+    function openGift() {
+      const gift = document.getElementById('gift');
+      gift.innerText = '🎉';
+      gift.style.animation = 'none';
+      gift.style.transform = 'scale(1.2)';
+      
+      document.getElementById('final-message').classList.remove('hidden');
+      document.getElementById('confetti').style.display = 'block';
+      startConfetti();
+    }
+
+    function shareWhatsApp() {
+      const text = encodeURIComponent("Aaaa lucuuu bangettt! Makasih banyak yaaaa kado virtualnyaa! 🥰💖✨");
+      window.open(`https://wa.me/?text=${text}`, '_blank');
+    }
+
+    // ==========================================
+    // 7. SIMPLE CONFETTI SCRIPT (Standalone)
+    // ==========================================
+    function startConfetti() {
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+      const colors = ['#FF9A9E', '#FECFEF', '#A1C4FD', '#FFD700', '#FFB7B2'];
+
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 2,
+          dx: Math.random() * 4 - 2,
+          dy: Math.random() * 5 + 2,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.y > canvas.height) {
+            p.y = 0;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+  </script>
+</body>
+</html>
